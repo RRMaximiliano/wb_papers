@@ -81,14 +81,3 @@ if(SAVE_DOWNLOADS == 1) {
     write_rds(here("data", "wb_downloads.rds"))
 }
 
-# Join dfs ----------------------------------------------------------------
-
-full_df <- read_rds(here("data", "wb_documents.rds"))
-down_df <- read_rds(here("data", "wb_downloads.rds"))
-
-complete_df <- full_df %>% 
-  left_join(down_df, by = "guid") %>% 
-  select(name, guid, docdt, display_title, download_count, everything())
-
-complete_df %>% 
-  write_rds(here("data", "wb_complete.rds"))
