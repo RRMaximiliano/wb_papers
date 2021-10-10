@@ -2,15 +2,53 @@
 # packages ----------------------------------------------------------------
 
 library(tidyverse)
-library(readxl)
 library(janitor)
 library(lubridate)
 library(hrbrthemes)
+library(here)
+library(ggstream)
 
 # Read data ---------------------------------------------------------------
-files <- list.files(path = "data/", pattern = "*.xlsx", full.names = TRUE)
-df    <- map_df(files, read_excel) %>% 
-  clean_names()
+clean_df <- read_rds(here("data", "wb_clean.rds"))
+
+
+clean_df <- clean_df %>%
+  filter(str_detect(type, "Paper|Article")) %>% 
+  mutate(
+    type = str_replace_all(type, "[\\n]", " "),
+    type = str_squish(type),
+  ) %>% 
+  filter(!is.na(year)) 
+
+clean_df %>% 
+  group_by(year) %>%
+  count() %>% 
+  ggplot(
+    aes(x = year, y = n)
+  ) + 
+  geom_col() + 
+  labs(
+    x = "Year",
+    y = "Total number of papers",
+    title = "Articles througout the years at the World Bank"
+  ) +
+  theme_ipsum_rc() +
+  theme(
+    panel.grid.minor.x = element_blank()
+  )
+
+clean_df %>% 
+  group_by(year, type) %>% 
+  add_tally() %>% view()
+  filter(n == 5) 
+  count(year, type) %>%
+  ggplot(
+    aes(x = year, y = n, fill = type, color = type, label = type)
+  ) + 
+  geom_stream(type = "ridge", n_grid = 3000, bw = .78) 
+  
+  add_count(year, type) %>% 
+  complete(year, nesting(type), fill = list(n = 0)) %>% view()
 
 clean_df <- df %>%
   mutate(

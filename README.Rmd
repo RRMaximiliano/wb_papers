@@ -1,0 +1,49 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(tidyverse)
+
+wb_documents <- read_rds <- read_rds("data/wb_documents.rds")
+wb_downloads <- read_rds <- read_rds("data/wb_downloads.rds")
+```
+
+# The World Bank documents and reports
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+This repository contains two datasets: (1) `wb_documents` and (2) `wb_downloads`, both in `rds` format. The data was scraped on October 7th. Therefore, the download counts information is as of that date.
+
+
+## wb_documents
+
+```{r}
+wb_documents
+```
+
+### variables
+
+```{r, echo = FALSE}
+wb_documents %>% glimpse()
+```
+
+## wb_downloads
+
+```{r}
+wb_downloads
+```
+
+### variables
+
+```{r, echo = FALSE}
+wb_downloads %>% glimpse()
+``` 

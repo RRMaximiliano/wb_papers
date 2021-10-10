@@ -72,3 +72,6 @@ clean_df <- clean_df %>%
     geo_regions = str_replace_all(geo_regions, ",", ", "),
     geo_regions = str_squish(geo_regions)
   )
+
+clean_df %>% 
+  write_rds(here("data", "wb_clean.rds"))
