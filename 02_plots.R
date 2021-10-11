@@ -31,8 +31,8 @@ clean_df %>%
   labs(
     x = "Year",
     y = "Total number of papers",
-    title = "Articles througout the years at the World Bank",
-    subtitle = "Only works that were published under Policy Research Working Paper, Working Paper, and Working Paper (Numbered Series)"
+    title = "Articles throughout the years at the World Bank",
+    subtitle = "The figure only includes papers that were categorized as 'Policy Research Working Paper', 'Working Paper', or 'Working Paper (Numbered Series)'\nfrom 1946 to 2021",
   ) +
   scale_y_continuous(labels = scales::comma) + 
   theme_ipsum_rc() +
