@@ -152,6 +152,6 @@ wb_downloads
     #> $ guid           <chr> "179981633527816046", "426681633524510673", "8702916334~
     #> $ download_count <int> 64, 17, 2, 59, 33, 4, 17, 2, 1, 28, 3, 18, 117, 1, 28, ~
 
-## Plots
+## Figures
 
 ![](figs/downloads_year.png)<!-- -->![](figs/downloads_counts.png)<!-- -->

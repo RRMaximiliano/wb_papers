@@ -48,9 +48,10 @@ wb_downloads
 wb_downloads %>% glimpse()
 ``` 
 
-## Plots
+## Figures
 
 ```{r, echo = FALSE}
 knitr::include_graphics("figs/downloads_year.png")
+
 knitr::include_graphics("figs/downloads_counts.png")
 ```
