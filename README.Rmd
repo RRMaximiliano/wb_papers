@@ -47,3 +47,10 @@ wb_downloads
 ```{r, echo = FALSE}
 wb_downloads %>% glimpse()
 ``` 
+
+## Plots
+
+```{r, echo = FALSE}
+knitr::include_graphics("figs/downloads_year.png")
+knitr::include_graphics("figs/downloads_counts.png")
+```

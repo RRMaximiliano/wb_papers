@@ -42,8 +42,8 @@ clean_df <- df %>%
   ) %>% 
   # Keep relevant vars
   select(
-    name, id, title = display_title, abstracts, date, year, month, yday, 
-    region = count, type = docty, type_key = docty_key, owner, 
+    name, id, guid, title = display_title, download_count, abstracts, date, 
+    year, month, yday, region = count, type = docty, type_key = docty_key, owner, 
     lang, subtopic, teratopic, geo_regions, pdfurl, version = versiontyp, 
     projectid, available_in, authors, keywords = keywd, colti, origu, dois, 
   )
