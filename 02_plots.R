@@ -33,6 +33,7 @@ clean_df %>%
     y = "Total number of papers",
     title = "Articles throughout the years at the World Bank",
     subtitle = "The figure only includes papers that were categorized as 'Policy Research Working Paper', 'Working Paper', or 'Working Paper (Numbered Series)'\nfrom 1946 to 2021",
+    caption = "Data: The World Bank Documents & Reports | Plot: @rrmaximiliano\nNotes: Downloads counts information as of October 7th, 2021"
   ) +
   scale_y_continuous(labels = scales::comma) + 
   theme_ipsum_rc() +
@@ -53,7 +54,6 @@ ggsave(
   scale = 0.8,
   bg = "white"
 )
-
 
 clean_df %>% 
   filter(type %in% c("Policy Research Working Paper", "Working Paper", "Working Paper (Numbered Series)")) %>% 
@@ -97,3 +97,126 @@ ggsave(
   bg = "white"
 )
 
+## DIME Papers
+
+tab <- clean_df %>% 
+  filter(str_detect(origu, "DIME|DECIE")) %>% 
+  arrange(desc(download_count)) %>% 
+  head(10) %>% 
+  mutate(
+    teratopic = str_replace_all(teratopic, ",", ", "),
+    download_count = scales::comma(download_count)
+  ) %>% 
+  select(authors, year, title, teratopic, geo_regions, download_count) %>% 
+  gt() %>% 
+  # gt_hulk_col_numeric(download_count) %>% 
+  gt_merge_stack(col1 = title, col2 = authors) %>% 
+  cols_label(
+    download_count = md("Downloads"),
+    year = "Published",
+    title = md("Title & Authors"),
+    teratopic = md("Topic"),
+    geo_regions = md("Region of Study")
+  ) %>% 
+  tab_header(
+    title = "Most downloaded papers from the Development Impact Evaluation Unit at the World Bank",
+    subtitle = "Top 10 papers"
+  )%>%
+  tab_source_note(
+    source_note = md("**Data:** The World Bank Documents & Reports | **Table:** @rrmaximiliano")
+  )%>%
+  tab_footnote(
+    footnote = md("Downloads as of October 7th, 2021"),
+    locations = cells_column_labels(columns = "download_count")
+  ) %>% 
+  # STYLE: Title
+  tab_style(
+    style = list(
+      cell_text(
+        font   = google_font(name = "Roboto Condensed"), 
+        weight = "900",
+        align  = "left", 
+        color  = "#EAAA00"
+      )
+    ),
+    locations = cells_title(groups = "title")
+  ) %>% 
+  # STYLE: Subtitle
+  tab_style(
+    style = list(
+      cell_text(
+        font = google_font(name = "Roboto Condensed"), align = "left"
+      )
+    ),
+    locations = cells_title(groups = "subtitle")
+  ) %>%
+  # STYLE: COLS 
+  tab_style(
+    style = list(
+      cell_text(
+        font  = google_font(name = "Roboto Condensed"), 
+        align = "left", 
+        v_align = "bottom"
+      )
+    ),
+    locations = cells_column_labels(
+      columns = c(authors, year, title, teratopic, geo_regions, download_count)
+    )
+  ) %>% 
+  # STYLE: BODY - NUMBERS
+  tab_style(
+    style = list(
+      cell_text(
+        font = google_font(name = "Inconsolata"),
+        align = "left"
+      )
+    ),
+    locations = cells_body(columns = c(year, download_count))
+  ) %>% 
+  # STYLE: BODY - Others
+  tab_style(
+    style = list(
+      cell_text(
+        font = google_font(name = "Roboto Condensed"),
+        align = "left",
+      )
+    ),
+    locations = cells_body(columns = c(teratopic, geo_regions))
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(
+        font = google_font(name = "Roboto Condensed"),
+        align = "left",
+        size = "large"
+      )
+    ),
+    locations = cells_body(columns = c(title, authors))
+  ) %>% 
+  # STYLE: Footnote
+  tab_style(
+    style = list(
+      cell_text(
+        font = google_font(name = "Roboto Condensed"), style = "italic"
+      )
+    ),
+    locations = cells_footnotes()
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(
+        font = google_font(name = "Roboto Condensed")
+        )
+    ),
+    locations = cells_source_notes()
+  ) %>%
+  # LINES (BORDERS)
+  tab_options(
+    table.border.top.style = "hidden",
+    table.border.bottom.style = "hidden"
+  )
+  
+gtsave_extra(
+  data = tab,
+  filename = "figs/table_downloads.png"
+)

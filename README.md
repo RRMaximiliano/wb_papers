@@ -154,4 +154,4 @@ wb_downloads
 
 ## Figures
 
-![](figs/downloads_year.png)<!-- -->![](figs/downloads_counts.png)<!-- -->
+![](figs/downloads_year.png)<!-- -->![](figs/downloads_counts.png)<!-- -->![](figs/table_downloads.png)<!-- -->
